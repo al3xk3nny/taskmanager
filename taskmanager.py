@@ -18,10 +18,10 @@ def get_category_names():
     return categories        
 
 
-# @app.route("/")
-# def get_tasks():
-#     tasks = mongo.db.tasks.find()
-#     return render_template("tasks.html", tasks=tasks)
+@app.route("/")
+def get_tasks():
+    tasks = mongo.db.tasks.find()
+    return render_template("tasks.html", tasks=tasks)
     
 @app.route("/tasks/<category>")
 def get_tasks_by_category(category):
