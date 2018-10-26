@@ -55,13 +55,20 @@ def edit_task(category, task_id):
             mongo.db[category].remove(the_task)
             mongo.db[form_values["category_name"]].insert(the_task)
             
-        return redirect(url_for("get_tasks_by_category", category=form_values["category_name"]))
+        return redirect(url_for("get_tasks_by_category", category=form_values["category_name"])) # Redirect goes to page task was moved to.
     else:
         the_task =  mongo.db[category].find_one({"_id": ObjectId(task_id)})
         
         categories = get_category_names()
         
         return render_template("edit_task.html", task=the_task, categories=categories)
+
+
+@app.route('/tasks/<category>/<task_id>/delete', methods=["POST"])
+def delete_task(category, task_id):
+    the_task = mongo.db[category].find_one({"_id": ObjectId(task_id)})
+    mongo.db[category].remove(the_task)
+    return redirect(url_for("get_tasks_by_category", category=category))
 
 
 if __name__ == "__main__":
